@@ -20,16 +20,18 @@ type Server struct {
 func NewServer() *Server {
 	db := make(map[int]*User)
 
-	for i := 1; i < 100; i++ {
-		db[i+1] = &User{
-			ID:       i + 1,
-			Username: fmt.Sprintf("iser_%d", i+1),
+	for i := 1; i <= 100; i++ {
+		db[i] = &User{
+			ID:       i,
+			Username: fmt.Sprintf("user_%d", i),
 		}
 	}
+
 	return &Server{
 		db: db,
 	}
 }
+
 
 func (s *Server) handleGetUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Query().Get("id")
