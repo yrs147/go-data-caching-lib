@@ -13,7 +13,8 @@ type User struct {
 }
 
 type Server struct {
-	db map[int]*User
+	db    map[int]*User
+	dbhit int
 }
 
 func NewServer() *Server {
@@ -34,10 +35,12 @@ func (s *Server) handleGetUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Query().Get("id")
 	id, _ := strconv.Atoi(idStr)
 
+	//hit the database
 	user, ok := s.db[id]
 	if !ok {
 		panic("user not found")
 	}
+	s.dbhit++
 
 	json.NewEncoder(w).Encode(user)
 }
